@@ -2,11 +2,12 @@ const bodyParser = require('body-parser');
 const libExpress = require('express');
 const libMongoose = require('mongoose');
 require('dotenv').config();
-
+const cors = require('cors')
 
 
 const app = libExpress();
 app.use(bodyParser.json());
+app.use(cors());
 
 const connection = libMongoose.connect(process.env.MONGO_URL).then(() => {
     console.log("mongodb connected");
