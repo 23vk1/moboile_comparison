@@ -35,7 +35,7 @@ const userSchema = new libMongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    // role: { type: String, required: true, default:user },
+    role: { type: String,enum:["admin","user"], default:"user" },
 })
 
 const User = libMongoose.model("User",userSchema);
@@ -54,12 +54,10 @@ app.get('/mobile', async (req, res) => {
 
 app.post('/register',async(req, res)=>{
     const {name, email, password}= req.body;
-    // const {name, email, password,role}= req.body;
     try{
         const userExist = await User.findOne({email})
         if(!userExist){
             const user = new User({name, email, password});
-            // const user = new User({name, email, password,role});
             const newUser = await user.save();
             console.log("user Saved Successfully");
             res.status(200).json({msg:"user saved successfully"});
