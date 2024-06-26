@@ -113,16 +113,16 @@ app.put('/edit/mobile/:id', async (req, res) => {
 })
 
 app.delete('/delete/:id', async (req, res) => {
-    const {_id} = req.params.id;
+    const {id} = req.params;
     try {
 
-        const deletedMobile = await Mobile.deleteOne(_id);
+        const deletedMobile = await Mobile.findOneAndDelete({_id: id});
         if (!deletedMobile) {
             console.log("error Deleting Mobile ");
             res.status(400).json({ msg: "Error deleting mobile" });
         } else {
             console.log("mobile deleted successfully");
-            res.status(200).json({ msg: "mobile deleted successfully" });
+            res.status(200).json({ msg: "mobile deleted successfully",mobile: deletedMobile});
         }
     }catch(e){
         console.log("error",e);
